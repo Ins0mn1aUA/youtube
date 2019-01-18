@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7D3F7FE921F2047C00309063 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3F7FE821F2047C00309063 /* Extensions.swift */; };
 		7D3F7FEC21F2050800309063 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3F7FEB21F2050800309063 /* VideoCell.swift */; };
+		7D3F7FEF21F2228100309063 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3F7FEE21F2228100309063 /* MenuBar.swift */; };
 		7D9037BE21F0E4440072C148 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9037BD21F0E4440072C148 /* AppDelegate.swift */; };
 		7D9037C021F0E4440072C148 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9037BF21F0E4440072C148 /* HomeController.swift */; };
 		7D9037C321F0E4440072C148 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D9037C121F0E4440072C148 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* Begin PBXFileReference section */
 		7D3F7FE821F2047C00309063 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7D3F7FEB21F2050800309063 /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
+		7D3F7FEE21F2228100309063 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		7D9037BA21F0E4440072C148 /* youtube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = youtube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D9037BD21F0E4440072C148 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7D9037BF21F0E4440072C148 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
@@ -51,6 +53,7 @@
 			isa = PBXGroup;
 			children = (
 				7D3F7FEB21F2050800309063 /* VideoCell.swift */,
+				7D3F7FEE21F2228100309063 /* MenuBar.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 				7D3F7FEC21F2050800309063 /* VideoCell.swift in Sources */,
 				7D3F7FE921F2047C00309063 /* Extensions.swift in Sources */,
 				7D9037BE21F0E4440072C148 /* AppDelegate.swift in Sources */,
+				7D3F7FEF21F2228100309063 /* MenuBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
