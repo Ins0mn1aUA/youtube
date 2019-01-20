@@ -28,14 +28,9 @@ class VideoCell: BaseCell {
         didSet {
             titleLabel.text = video?.title
             
-            if let tumbnailImageName = video?.tumbnailImageName {
-                tumbnailImageView.image = UIImage(named: tumbnailImageName)
-            }
-            
-            if let profileImageName = video?.chanel?.profileImageName {
-                userProfileImageView.image = UIImage(named: profileImageName)
-            }
-            
+            setupTumbnailImage()
+            setupProfileImage()
+             
             if let chanelName = video?.chanel?.name, let numberOfviews = video?.numberOfViews {
                 
                 let numberFormatter = NumberFormatter()
@@ -64,6 +59,18 @@ class VideoCell: BaseCell {
         }
     }
     
+    func setupProfileImage() {
+        if let profileImageUrl = video?.chanel?.profileImageName {
+            userProfileImageView.loadImageUsing(urlString: profileImageUrl)
+        }
+    }
+    
+    func setupTumbnailImage() {
+        if let tumbnailImageUrl = video?.tumbnailImageName {
+            tumbnailImageView.loadImageUsing(urlString: tumbnailImageUrl)
+        }
+    }
+    
     let tumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "lamborghini_urus")
@@ -77,6 +84,7 @@ class VideoCell: BaseCell {
         imageView.image = UIImage(named: "dde_profile")
         imageView.layer.cornerRadius = 22
         imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     

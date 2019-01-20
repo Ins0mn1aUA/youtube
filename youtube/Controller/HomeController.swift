@@ -9,33 +9,79 @@ import UIKit
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
-    var videos: [Video] = {
+//    var videos: [Video] = {
+//
+//        var ddeChannel = Channel()
+//        ddeChannel.name = "DailyDrivenExotics"
+//        ddeChannel.profileImageName = "dde_profile"
+//
+//        var wylsacomChannel = Channel()
+//        wylsacomChannel.name = "Wylsacom"
+//        wylsacomChannel.profileImageName = "wylsacom_profile"
+//
+//        var lamboUrusVideo = Video()
+//        lamboUrusVideo.title = "650HP Lamborghini Urus goes off-roading"
+//        lamboUrusVideo.tumbnailImageName = "lamborghini_urus"
+//        lamboUrusVideo.chanel = ddeChannel
+//        lamboUrusVideo.numberOfViews = 1915132352
+//
+//        var macProVideo = Video()
+//        macProVideo.title = "Apple Mac Pro 2013: unpacking and first impression"
+//        macProVideo.tumbnailImageName = "mac_pro"
+//        macProVideo.chanel = wylsacomChannel
+//        macProVideo.numberOfViews = 1204911311
+//
+//        return [lamboUrusVideo, macProVideo]
+//    }()
+    
+    var videos: [Video]?
+    
+    //MARK: JSON
+    func fetchVideos() {
         
-        var ddeChannel = Channel()
-        ddeChannel.name = "DailyDrivenExotics"
-        ddeChannel.profileImageName = "dde_profile"
-        
-        var wylsacomChannel = Channel()
-        wylsacomChannel.name = "Wylsacom"
-        wylsacomChannel.profileImageName = "wylsacom_profile"
-        
-        var lamboUrusVideo = Video()
-        lamboUrusVideo.title = "650HP Lamborghini Urus goes off-roading"
-        lamboUrusVideo.tumbnailImageName = "lamborghini_urus"
-        lamboUrusVideo.chanel = ddeChannel
-        lamboUrusVideo.numberOfViews = 1915132352
-        
-        var macProVideo = Video()
-        macProVideo.title = "Apple Mac Pro 2013: unpacking and first impression"
-        macProVideo.tumbnailImageName = "mac_pro"
-        macProVideo.chanel = wylsacomChannel
-        macProVideo.numberOfViews = 1204911311
-        
-        return [lamboUrusVideo, macProVideo]
-    }()
+        let url = URL(string: "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json")
+        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            
+            if error != nil {
+                print(error ?? "some error")
+                return
+            }
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                self.videos = [Video]()
+                
+                for dictionary in json as! [[String: AnyObject]] {
+                    let video = Video()
+                    video.title = dictionary["title"] as? String
+                    video.tumbnailImageName = dictionary["thumbnail_image_name"] as? String
+                    
+                    let channelDictionary = dictionary["channel"] as! [String: AnyObject]
+                    
+                    let channel = Channel()
+                    channel.name = channelDictionary["name"] as? String
+                    channel.profileImageName = channelDictionary["profile_image_name"] as? String
+                    
+                    video.chanel = channel
+                    
+                    self.videos?.append(video)
+                }
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+                
+            } catch let jsonError {
+                print(jsonError)
+            }
+            
+        }.resume()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        fetchVideos()
         
         navigationController?.navigationBar.isTranslucent = false
 
@@ -90,13 +136,13 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     //MARK: - UICollectionViewDelegateFlowLayout
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return videos.count
+        return videos?.count ?? 0
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! VideoCell
         
-        cell.video = videos[indexPath.item]
+        cell.video = videos?[indexPath.item]
         
         return cell
     }
