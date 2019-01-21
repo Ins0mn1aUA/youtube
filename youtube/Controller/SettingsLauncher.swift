@@ -40,6 +40,8 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
                  Setting(name: "Cancel", imageName: "cancel")]
     }()
     
+    var homeController: HomeController?
+    
     @objc func showSettings() {
         //show menu
         if let window = UIApplication.shared.keyWindow {
@@ -71,8 +73,8 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
         }
     }
     
-    @objc func handleDismiss() {
-        UIView.animate(withDuration: 0.5) {
+    @objc func handleDismiss(setting: NSObject) {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.blackView.alpha = 0
             
             if let window = UIApplication.shared.keyWindow {
@@ -81,7 +83,14 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
                                                    width: self.collectionView.frame.width,
                                                    height: self.collectionView.frame.height)
             }
-         }
+            
+        }) { (completed: Bool) in
+            
+            if setting is Setting && (setting as! Setting).name != "Cancel" {
+                self.homeController?.showControllerForSetting(setting: setting as! Setting)
+            }
+            
+        }
     }
     
     //MARK: Collection view delegate / data source
@@ -106,13 +115,16 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
         return 0
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let setting = self.settings[indexPath.item]
+        handleDismiss(setting: setting)
+    }
+    
     override init() {
         super.init()
-
         collectionView.dataSource = self
         collectionView.delegate = self
-        
         collectionView.register(SettingCell.self,  forCellWithReuseIdentifier: cellId)
-        
     }
 }

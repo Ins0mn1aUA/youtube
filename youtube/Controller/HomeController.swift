@@ -8,31 +8,6 @@
 import UIKit
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
-//    var videos: [Video] = {
-//
-//        var ddeChannel = Channel()
-//        ddeChannel.name = "DailyDrivenExotics"
-//        ddeChannel.profileImageName = "dde_profile"
-//
-//        var wylsacomChannel = Channel()
-//        wylsacomChannel.name = "Wylsacom"
-//        wylsacomChannel.profileImageName = "wylsacom_profile"
-//
-//        var lamboUrusVideo = Video()
-//        lamboUrusVideo.title = "650HP Lamborghini Urus goes off-roading"
-//        lamboUrusVideo.tumbnailImageName = "lamborghini_urus"
-//        lamboUrusVideo.chanel = ddeChannel
-//        lamboUrusVideo.numberOfViews = 1915132352
-//
-//        var macProVideo = Video()
-//        macProVideo.title = "Apple Mac Pro 2013: unpacking and first impression"
-//        macProVideo.tumbnailImageName = "mac_pro"
-//        macProVideo.chanel = wylsacomChannel
-//        macProVideo.numberOfViews = 1204911311
-//
-//        return [lamboUrusVideo, macProVideo]
-//    }()
     
     var videos: [Video]?
     
@@ -125,11 +100,24 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
     }
     
-    let settingsLauncher = SettingsLauncher()
+    lazy var settingsLauncher: SettingsLauncher = {
+        let launcher = SettingsLauncher()
+        launcher.homeController = self
+        return launcher
+    }()
     
     @objc func handleMore() {
         //show menu
         settingsLauncher.showSettings()
+    }
+    
+    func showControllerForSetting(setting: Setting) {
+        let dummySettingViewController = UIViewController()
+        dummySettingViewController.view.backgroundColor = .white
+        dummySettingViewController.navigationItem.title = setting.name
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.pushViewController(dummySettingViewController, animated: true)
     }
 
     //MARK: - Actions
