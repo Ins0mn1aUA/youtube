@@ -71,16 +71,16 @@ class VideoCell: BaseCell {
         }
     }
     
-    let tumbnailImageView: UIImageView = {
-        let imageView = UIImageView()
+    let tumbnailImageView: CustomImageView = {
+        let imageView = CustomImageView()
         imageView.image = UIImage(named: "lamborghini_urus")
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
     
-    let userProfileImageView: UIImageView = {
-        let imageView = UIImageView()
+    let userProfileImageView: CustomImageView = {
+        let imageView = CustomImageView()
         imageView.image = UIImage(named: "dde_profile")
         imageView.layer.cornerRadius = 22
         imageView.layer.masksToBounds = true
