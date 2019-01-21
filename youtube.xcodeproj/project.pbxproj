@@ -16,6 +16,7 @@
 		7D9037C321F0E4440072C148 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D9037C121F0E4440072C148 /* Main.storyboard */; };
 		7D9037C521F0E4460072C148 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D9037C421F0E4460072C148 /* Assets.xcassets */; };
 		7D9037C821F0E4460072C148 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D9037C621F0E4460072C148 /* LaunchScreen.storyboard */; };
+		7DD7738C21F63A55005224A6 /* SettingsLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD7738B21F63A55005224A6 /* SettingsLauncher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		7D9037C421F0E4460072C148 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7D9037C721F0E4460072C148 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7D9037C921F0E4460072C148 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7DD7738B21F63A55005224A6 /* SettingsLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLauncher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				7D9037BF21F0E4440072C148 /* HomeController.swift */,
+				7DD7738B21F63A55005224A6 /* SettingsLauncher.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 				7D9037C021F0E4440072C148 /* HomeController.swift in Sources */,
 				7D69FA2821F49E8A0014F18C /* Video.swift in Sources */,
 				7D3F7FEC21F2050800309063 /* VideoCell.swift in Sources */,
+				7DD7738C21F63A55005224A6 /* SettingsLauncher.swift in Sources */,
 				7D3F7FE921F2047C00309063 /* Extensions.swift in Sources */,
 				7D9037BE21F0E4440072C148 /* AppDelegate.swift in Sources */,
 				7D3F7FEF21F2228100309063 /* MenuBar.swift in Sources */,

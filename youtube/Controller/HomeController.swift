@@ -125,13 +125,16 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
     }
     
-    //MARK: - Actions
-    @objc func handleSearch() {
-        print(123)
-    }
+    let settingsLauncher = SettingsLauncher()
     
     @objc func handleMore() {
-        print(321)
+        //show menu
+        settingsLauncher.showSettings()
+    }
+
+    //MARK: - Actions
+    @objc func handleSearch() {
+        //show search
     }
     
     //MARK: - UICollectionViewDelegateFlowLayout
