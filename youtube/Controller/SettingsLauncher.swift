@@ -8,13 +8,22 @@
 import UIKit
 
 class Setting: NSObject {
-    let name: String
+    let name: settingName
     let imageName: String
     
-    init(name: String, imageName: String) {
+    init(name: settingName, imageName: String) {
         self.name = name
         self.imageName = imageName
     }
+}
+
+enum settingName: String {
+    case Settings = "Settings"
+    case TermsPrivacy = "Terms & privacy policy"
+    case SendFeedback = "Send FeedBack"
+    case Help = "Help"
+    case SwitchAccount = "Switch Account"
+    case Cancel = "Cancel"
 }
 
 class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -32,12 +41,12 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
     let cellHeight: CGFloat = 50
     
     let settings: [Setting] = {
-         return [Setting(name: "Settings", imageName: "settings"),
-                 Setting(name: "Terms & privacy policy", imageName: "privacy"),
-                 Setting(name: "Send FeedBack", imageName: "feedback"),
-                 Setting(name: "Help", imageName: "help"),
-                 Setting(name: "Switch Account", imageName: "switch_account"),
-                 Setting(name: "Cancel", imageName: "cancel")]
+         return [Setting(name: .Settings, imageName: "settings"),
+                 Setting(name: .TermsPrivacy, imageName: "privacy"),
+                 Setting(name: .SendFeedback, imageName: "feedback"),
+                 Setting(name: .Help, imageName: "help"),
+                 Setting(name: .SwitchAccount, imageName: "switch_account"),
+                 Setting(name: .Cancel, imageName: "cancel")]
     }()
     
     var homeController: HomeController?
@@ -73,7 +82,7 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
         }
     }
     
-    @objc func handleDismiss(setting: NSObject) {
+    @objc func handleDismiss(setting: Setting) {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.blackView.alpha = 0
             
@@ -86,8 +95,8 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
             
         }) { (completed: Bool) in
             
-            if setting is Setting && (setting as! Setting).name != "Cancel" {
-                self.homeController?.showControllerForSetting(setting: setting as! Setting)
+            if setting.name != .Cancel {
+                self.homeController?.showControllerForSetting(setting: setting)
             }
             
         }
