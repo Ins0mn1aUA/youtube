@@ -21,7 +21,7 @@ class SettingCell: BaseCell {
         didSet {
             nameLabel.text = setting?.name.rawValue
             if let imageName = setting?.imageName {
-                iconImageView.image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
+                iconImageView.image = UIImage(named: imageName.rawValue)?.withRenderingMode(.alwaysTemplate)
                 iconImageView.tintColor = .darkGray
             }
         }

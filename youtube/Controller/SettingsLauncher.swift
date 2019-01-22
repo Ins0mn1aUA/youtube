@@ -9,9 +9,9 @@ import UIKit
 
 class Setting: NSObject {
     let name: settingName
-    let imageName: String
+    let imageName: settingImageName
     
-    init(name: settingName, imageName: String) {
+    init(name: settingName, imageName: settingImageName) {
         self.name = name
         self.imageName = imageName
     }
@@ -24,6 +24,15 @@ enum settingName: String {
     case Help = "Help"
     case SwitchAccount = "Switch Account"
     case Cancel = "Cancel"
+}
+
+enum settingImageName: String {
+    case Settings = "settings"
+    case TermsPrivacy = "privacy"
+    case SendFeedback = "feedback"
+    case Help = "help"
+    case SwitchAccount = "switch_account"
+    case Cancel = "cancel"
 }
 
 class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -41,12 +50,12 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
     let cellHeight: CGFloat = 50
     
     let settings: [Setting] = {
-         return [Setting(name: .Settings, imageName: "settings"),
-                 Setting(name: .TermsPrivacy, imageName: "privacy"),
-                 Setting(name: .SendFeedback, imageName: "feedback"),
-                 Setting(name: .Help, imageName: "help"),
-                 Setting(name: .SwitchAccount, imageName: "switch_account"),
-                 Setting(name: .Cancel, imageName: "cancel")]
+         return [Setting(name: .Settings, imageName: .Settings),
+                 Setting(name: .TermsPrivacy, imageName: .TermsPrivacy),
+                 Setting(name: .SendFeedback, imageName: .SendFeedback),
+                 Setting(name: .Help, imageName: .Help),
+                 Setting(name: .SwitchAccount, imageName: .SwitchAccount),
+                 Setting(name: .Cancel, imageName: .Cancel)]
     }()
     
     var homeController: HomeController?
