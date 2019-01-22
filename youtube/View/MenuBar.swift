@@ -58,6 +58,7 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
     
     //MARK: - Collection View delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         homeController?.scrollTo(menuIndex: indexPath.item )
     }
     
