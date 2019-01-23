@@ -14,7 +14,7 @@ class ApiService: NSObject {
     let baseUrl = "https://s3-us-west-2.amazonaws.com/youtubeassets"
     
     func fetchVideos(completion: @escaping ([Video]) -> ()) {
-        fetchFeedFrom(urlString: "\(baseUrl)/home.json", completion: completion)
+        fetchFeedFrom(urlString: "\(baseUrl)/home_num_likes.json", completion: completion)
     }
     
     func fetchTrendingFeed(completion: @escaping ([Video]) -> ()) {
@@ -26,37 +26,16 @@ class ApiService: NSObject {
     }
     
     func fetchFeedFrom(urlString: String, completion: @escaping ([Video]) -> ()) {
-        let url = URL(string: urlString)
-        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+        guard let url = URL(string: urlString) else { return }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
             
-            if error != nil {
-                print(error ?? "some error")
-                return
-            }
+            guard let data = data else { return }
             
             do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                
-                var videos = [Video]()
-                
-                for dictionary in json as! [[String: AnyObject]] {
-                    let video = Video()
-                    video.title = dictionary["title"] as? String
-                    video.tumbnailImageName = dictionary["thumbnail_image_name"] as? String
-                    
-                    let channelDictionary = dictionary["channel"] as! [String: AnyObject]
-                    
-                    let channel = Channel()
-                    channel.name = channelDictionary["name"] as? String
-                    channel.profileImageName = channelDictionary["profile_image_name"] as? String
-                    
-                    video.chanel = channel
-                    
-                    videos.append(video)
-                }
+                let json = try JSONDecoder().decode([Video].self, from: data)
                 
                 DispatchQueue.main.async {
-                    completion(videos)
+                    completion(json)
                 }
                 
             } catch let jsonError {
@@ -64,6 +43,6 @@ class ApiService: NSObject {
             }
             
             }.resume()
+        
     }
-    
 }

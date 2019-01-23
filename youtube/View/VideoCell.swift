@@ -20,6 +20,7 @@ class BaseCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
 
 class VideoCell: BaseCell {
@@ -31,12 +32,13 @@ class VideoCell: BaseCell {
             setupTumbnailImage()
             setupProfileImage()
              
-            if let chanelName = video?.chanel?.name, let numberOfviews = video?.numberOfViews {
+            if let channelName = video?.channel?.name, let numberOfViews = video?.number_of_views {
                 
                 let numberFormatter = NumberFormatter()
                 numberFormatter.numberStyle = .decimal
                 
-                let subtitleText = "\(chanelName) · \(numberFormatter.string(from: numberOfviews)!) views · 2 weaks ago"
+                let subtitleText = "\(channelName) · \(numberFormatter.string(from: NSNumber(integerLiteral: numberOfViews))!) · 2 years ago"
+
                 subtitleTextView.text = subtitleText
             }
             
@@ -60,20 +62,20 @@ class VideoCell: BaseCell {
     }
     
     func setupProfileImage() {
-        if let profileImageUrl = video?.chanel?.profileImageName {
+        if let profileImageUrl = video?.channel?.profile_image_name {
             userProfileImageView.loadImageUsing(urlString: profileImageUrl)
         }
     }
     
     func setupTumbnailImage() {
-        if let tumbnailImageUrl = video?.tumbnailImageName {
+        if let tumbnailImageUrl = video?.thumbnail_image_name {
             tumbnailImageView.loadImageUsing(urlString: tumbnailImageUrl)
         }
     }
     
     let tumbnailImageView: CustomImageView = {
         let imageView = CustomImageView()
-        imageView.image = UIImage(named: "lamborghini_urus")
+//        imageView.image = UIImage(named: "lamborghini_urus")
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
@@ -81,7 +83,6 @@ class VideoCell: BaseCell {
     
     let userProfileImageView: CustomImageView = {
         let imageView = CustomImageView()
-        imageView.image = UIImage(named: "dde_profile")
         imageView.layer.cornerRadius = 22
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFill
@@ -97,7 +98,6 @@ class VideoCell: BaseCell {
     let titleLabel: UILabel = {
         let label = UILabel.init()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "650HP Lamborghini Urus goes off-roading with a Valentino Balboni"
         label.numberOfLines = 2
         return label
     }()
@@ -105,7 +105,6 @@ class VideoCell: BaseCell {
     let subtitleTextView: UITextView = {
         let textView = UITextView.init()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.text = "DailyDrivenExotics\n190K views · 22 hours ago"
         textView.textContainerInset = UIEdgeInsets(top: 0, left: -4, bottom: 0, right: 0)
         textView.textColor = .lightGray
         return textView
