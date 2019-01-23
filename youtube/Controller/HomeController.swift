@@ -122,7 +122,6 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     //MARK: - UICollectionViewDelegateFlowLayout
-    
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         menuBar.horizontalBarLeftAnchorConstraint?.constant = scrollView.contentOffset.x / 4
     }

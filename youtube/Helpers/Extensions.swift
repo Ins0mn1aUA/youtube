@@ -28,9 +28,7 @@ class CustomImageView: UIImageView {
     func loadImageUsing(urlString: String) {
         
         imageUrlString = urlString
-        
         let url = URL(string: urlString)
-        
         image = nil
         
         if let imageFromCache = imageCache.object(forKey: urlString as AnyObject) {
@@ -54,11 +52,9 @@ class CustomImageView: UIImageView {
                 }
                 
                 imageCache.setObject(imageToCache!, forKey: urlString as AnyObject)
-                
             }
             
         }.resume()
         
     }
-    
 }

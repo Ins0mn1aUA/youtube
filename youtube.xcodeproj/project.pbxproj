@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7D2D6D5821F8847C00C46533 /* TrendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2D6D5721F8847C00C46533 /* TrendingCell.swift */; };
 		7D2D6D5A21F8877900C46533 /* SubscriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2D6D5921F8877900C46533 /* SubscriptionCell.swift */; };
+		7D2D6D5C21F8BC3800C46533 /* VideoLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2D6D5B21F8BC3800C46533 /* VideoLauncher.swift */; };
 		7D3F7FE921F2047C00309063 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3F7FE821F2047C00309063 /* Extensions.swift */; };
 		7D3F7FEC21F2050800309063 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3F7FEB21F2050800309063 /* VideoCell.swift */; };
 		7D3F7FEF21F2228100309063 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3F7FEE21F2228100309063 /* MenuBar.swift */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		7D2D6D5721F8847C00C46533 /* TrendingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCell.swift; sourceTree = "<group>"; };
 		7D2D6D5921F8877900C46533 /* SubscriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionCell.swift; sourceTree = "<group>"; };
+		7D2D6D5B21F8BC3800C46533 /* VideoLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLauncher.swift; sourceTree = "<group>"; };
 		7D3F7FE821F2047C00309063 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7D3F7FEB21F2050800309063 /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		7D3F7FEE21F2228100309063 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
@@ -68,10 +70,10 @@
 		7D3F7FEA21F204E600309063 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7D3F7FEB21F2050800309063 /* VideoCell.swift */,
-				7D446C9D21F7476E00199309 /* MenuCell.swift */,
-				7DD7738D21F64416005224A6 /* SettingCell.swift */,
 				7D3F7FEE21F2228100309063 /* MenuBar.swift */,
+				7D446C9D21F7476E00199309 /* MenuCell.swift */,
+				7D3F7FEB21F2050800309063 /* VideoCell.swift */,
+				7DD7738D21F64416005224A6 /* SettingCell.swift */,
 				7D446CA221F78A3600199309 /* FeedCell.swift */,
 				7D2D6D5721F8847C00C46533 /* TrendingCell.swift */,
 				7D2D6D5921F8877900C46533 /* SubscriptionCell.swift */,
@@ -84,6 +86,7 @@
 			children = (
 				7D9037BF21F0E4440072C148 /* HomeController.swift */,
 				7DD7738B21F63A55005224A6 /* SettingsLauncher.swift */,
+				7D2D6D5B21F8BC3800C46533 /* VideoLauncher.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				7D9037C021F0E4440072C148 /* HomeController.swift in Sources */,
 				7D69FA2821F49E8A0014F18C /* Video.swift in Sources */,
 				7D446C9E21F7476E00199309 /* MenuCell.swift in Sources */,
+				7D2D6D5C21F8BC3800C46533 /* VideoLauncher.swift in Sources */,
 				7DD7738E21F64416005224A6 /* SettingCell.swift in Sources */,
 				7D446CA321F78A3600199309 /* FeedCell.swift in Sources */,
 				7D3F7FEC21F2050800309063 /* VideoCell.swift in Sources */,
