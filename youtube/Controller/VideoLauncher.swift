@@ -30,10 +30,8 @@ class VideoPlayerView: UIView {
         return button
     }()
     
-    var isPlaying = false
-    
     @objc func handlePause() {
-        if isPlaying {
+        if isPlaying() {
             player?.pause()
             pausePlayButton.setImage(UIImage(named: "play"), for: .normal)
         } else {
@@ -41,7 +39,6 @@ class VideoPlayerView: UIView {
             pausePlayButton.setImage(UIImage(named: "pause"), for: .normal)
         }
         
-        isPlaying = !isPlaying
     }
     
     let controlContainerView: UIView = {
@@ -93,14 +90,17 @@ class VideoPlayerView: UIView {
         }
     }
     
+    func isPlaying() -> Bool {
+        return player?.rate != 0 && player?.error == nil
+    };
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
         // this is when the player is ready and rendering frames
         if keyPath == "currentItem.loadedTimeRanges" {
             activityIndicatorView.stopAnimating()
             controlContainerView.backgroundColor = .clear
-            pausePlayButton .isHidden = false
-            isPlaying = true
+            pausePlayButton.isHidden = false
         }
     }
     
