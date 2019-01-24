@@ -9,6 +9,8 @@ import UIKit
 import AVFoundation
 
 class VideoPlayerView: UIView {
+    
+    var player: AVPlayer?
 
     let activityIndicatorView: UIActivityIndicatorView = {
         let aiv = UIActivityIndicatorView(style: .whiteLarge)
@@ -17,19 +19,46 @@ class VideoPlayerView: UIView {
         return aiv
     }()
     
-    let pausePlayButton: UIButton = {
+    let controlContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(white: 0, alpha: 1)
+        return view
+    }()
+    
+    lazy var pausePlayButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(named: "pause")
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .white
         button.isHidden = true
-        
         button.addTarget(self, action: #selector(handlePause), for: .touchUpInside)
-        
         return button
     }()
     
+    lazy var videoSlider: UISlider = {
+        let slider = UISlider()
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.minimumTrackTintColor = .red
+        slider.maximumTrackTintColor = .white
+        slider.setThumbImage(UIImage(named: "thumb"), for: .normal)
+        
+        slider.addTarget(self, action: #selector(handleSliderChange), for: .valueChanged)
+        
+        return slider
+    }()
+    
+    let videoLengthLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.textAlignment = .right
+        return label
+    }()
+    
+    //MARK: - Actions
     @objc func handlePause() {
         if isPlaying() {
             player?.pause()
@@ -38,20 +67,63 @@ class VideoPlayerView: UIView {
             player?.play()
             pausePlayButton.setImage(UIImage(named: "pause"), for: .normal)
         }
-        
     }
     
-    let controlContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(white: 0, alpha: 1)
-        return view
-    }()
+    @objc func handleSliderChange() {
+        print(videoSlider.value)
+        
+        if let duration = player?.currentItem?.duration {
+            let totalSeconds = CMTimeGetSeconds(duration)
+            let value = Float64(videoSlider.value) * totalSeconds
+            let seekTime = CMTime(value: Int64(value), timescale: 1)
+            player?.seek(to: seekTime, completionHandler: { (completedSeek) in
+                // do something here maybe
+            })
+        }
+    }
+    
+    private func setupPlayerView() {
+        let urlString: String = {
+            return "https://r15---sn-3c27sn7e.googlevideo.com/videoplayback?mime=video%2Fmp4&sparams=clen,dur,ei,expire,gir,id,ip,ipbits,ipbypass,itag,lmt,mime,mip,mm,mn,ms,mv,nh,pl,ratebypass,requiressl,source&fvip=2&itag=18&ei=9Z5JXNClIbaPz7sPrf2luA0&id=o-AN_G2Znnhd6O1HHqhYtYaBVNIyG-ozKo7Ye3ABwVyMY6&txp=5531432&key=cms1&ip=43.230.196.98&lmt=1540661473071949&dur=253.933&clen=20907280&expire=1548350293&requiressl=yes&ipbits=0&source=youtube&c=WEB&gir=yes&pl=16&signature=7636469DEF2A1B8C953534985C13DEBB7A7AA083.702D234BCBD5523911EA3198BB5CF2DCF449F457&ratebypass=yes&video_id=wTcNtgA6gHs&title=GoPro+HERO4-+The+Adventure+of+Life+in+4K&rm=sn-nip8po4vuxjipo-qxae7l,sn-qxay7d&req_id=a7a4f07aa001a3ee&redirect_counter=2&cms_redirect=yes&ipbypass=yes&mip=176.36.193.245&mm=29&mn=sn-3c27sn7e&ms=rdu&mt=1548332617&mv=m&nh=IgpwcjAxLmticDAzKgkxMjcuMC4wLjE"
+        }()
+        if let url = URL(string: urlString) {
+            player = AVPlayer(url: url)
+            let playerLayer = AVPlayerLayer(player: player)
+            playerLayer.frame = self.frame
+            self.layer.addSublayer(playerLayer)
+            player?.play()
+            player?.addObserver(self, forKeyPath: "currentItem.loadedTimeRanges", options: .new, context: nil)
+            
+        }
+    }
+    
+    private func isPlaying() -> Bool {
+        return player?.rate != 0 && player?.error == nil
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        
+        // this is when the player is ready and rendering frames
+        if keyPath == "currentItem.loadedTimeRanges" {
+            activityIndicatorView.stopAnimating()
+            controlContainerView.backgroundColor = .clear
+            pausePlayButton.isHidden = false
+            
+            if let duration = player?.currentItem?.duration {
+                let seconds = Int(CMTimeGetSeconds(duration))
+                let secondsText = seconds % 60
+                let minutesText = String(format: "%02d", seconds / 60)
+                videoLengthLabel.text = "\(minutesText):\(secondsText)"
+            }
+            
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         setupPlayerView()
-
+        
         controlContainerView.frame = frame
         
         addSubview(controlContainerView)
@@ -66,42 +138,20 @@ class VideoPlayerView: UIView {
         pausePlayButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         pausePlayButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
+        controlContainerView.addSubview(videoLengthLabel)
+        videoLengthLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -4).isActive = true
+        videoLengthLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        videoLengthLabel.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        videoLengthLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        
+        controlContainerView.addSubview(videoSlider)
+        videoSlider.rightAnchor.constraint(equalTo: videoLengthLabel.leftAnchor).isActive = true
+        videoSlider.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        videoSlider.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        videoSlider.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
         backgroundColor = .black
         
-    }
-    
-    var player: AVPlayer?
-    
-    private func setupPlayerView() {
-        let urlString: String = {
-            return "https://r6---sn-3c27sn7z.googlevideo.com/videoplayback?requiressl=yes&clen=52446690&c=WEB&source=youtube&ei=aLdIXPODMq-MkAT2-aXIDg&lmt=1544834843713207&ip=181.126.84.96&pl=16&dur=646.118&id=o-AJtCk0UuaRl2HBGoJNHTSSqJgV222he5dvTA5RndJWEv&gir=yes&key=cms1&sparams=clen,dur,ei,expire,gir,id,ip,ipbits,ipbypass,itag,lmt,mime,mip,mm,mn,ms,mv,nh,pl,ratebypass,requiressl,source&expire=1548291016&fvip=1&ratebypass=yes&itag=18&mime=video%2Fmp4&txp=5531432&ipbits=0&signature=0C434A945DE9E255D6DED60B85368BB20D330412.5A4FABDA3569DBC4D88468CFA453B45111514B5A&video_id=WvDeKZGunjY&title=This+Guy+Streamsnipes+%26+Scares+PUBG+Streamers%21+%28Hilarious+PUBG+Jumpscares%29+-+PART+2&rm=sn-upbv2t-5n0l7e,sn-bg0sk76&req_id=6df6535ee3efa3ee&redirect_counter=2&cms_redirect=yes&ipbypass=yes&mip=176.36.193.245&mm=29&mn=sn-3c27sn7z&ms=rdu&mt=1548274187&mv=m&nh=IgpwcjAxLmticDAzKgkxMjcuMC4wLjE"
-        }()
-        if let url = URL(string: urlString) {
-            player = AVPlayer(url: url)
-            
-            let playerLayer = AVPlayerLayer(player: player)
-            playerLayer.frame = self.frame
-            self.layer.addSublayer(playerLayer)
-            
-            player?.play()
-            
-            player?.addObserver(self, forKeyPath: "currentItem.loadedTimeRanges", options: .new, context: nil)
-            
-        }
-    }
-    
-    func isPlaying() -> Bool {
-        return player?.rate != 0 && player?.error == nil
-    };
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        
-        // this is when the player is ready and rendering frames
-        if keyPath == "currentItem.loadedTimeRanges" {
-            activityIndicatorView.stopAnimating()
-            controlContainerView.backgroundColor = .clear
-            pausePlayButton.isHidden = false
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -144,5 +194,4 @@ class VideoLauncher: NSObject {
         }
 
     }
-    
 }

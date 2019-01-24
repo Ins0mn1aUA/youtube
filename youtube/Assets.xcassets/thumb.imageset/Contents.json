@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "DDE-profile.jpg",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "thumb_2.png",
       "scale" : "2x"
     },
     {
