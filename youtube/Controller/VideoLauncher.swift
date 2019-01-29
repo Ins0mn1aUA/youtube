@@ -11,7 +11,8 @@ import AVFoundation
 class VideoPlayerView: UIView {
     
     var player: AVPlayer?
-
+    var isControlsActive = true
+    
     let activityIndicatorView: UIActivityIndicatorView = {
         let aiv = UIActivityIndicatorView(style: .whiteLarge)
         aiv.translatesAutoresizingMaskIntoConstraints = false
@@ -91,9 +92,19 @@ class VideoPlayerView: UIView {
         }
     }
     
+    @objc func handleHideControlMenu() {
+        pausePlayButton.isHidden = isControlsActive
+        videoSlider.isHidden = isControlsActive
+        currentTimeLabel.isHidden = isControlsActive
+        videoLengthLabel.isHidden = isControlsActive
+        
+        
+        isControlsActive = !isControlsActive
+    }
+    
     private func setupPlayerView() {
         let urlString: String = {
-            return "https://r15---sn-3c27sn7e.googlevideo.com/videoplayback?mime=video%2Fmp4&sparams=clen,dur,ei,expire,gir,id,ip,ipbits,ipbypass,itag,lmt,mime,mip,mm,mn,ms,mv,nh,pl,ratebypass,requiressl,source&fvip=2&itag=18&ei=9Z5JXNClIbaPz7sPrf2luA0&id=o-AN_G2Znnhd6O1HHqhYtYaBVNIyG-ozKo7Ye3ABwVyMY6&txp=5531432&key=cms1&ip=43.230.196.98&lmt=1540661473071949&dur=253.933&clen=20907280&expire=1548350293&requiressl=yes&ipbits=0&source=youtube&c=WEB&gir=yes&pl=16&signature=7636469DEF2A1B8C953534985C13DEBB7A7AA083.702D234BCBD5523911EA3198BB5CF2DCF449F457&ratebypass=yes&video_id=wTcNtgA6gHs&title=GoPro+HERO4-+The+Adventure+of+Life+in+4K&rm=sn-nip8po4vuxjipo-qxae7l,sn-qxay7d&req_id=a7a4f07aa001a3ee&redirect_counter=2&cms_redirect=yes&ipbypass=yes&mip=176.36.193.245&mm=29&mn=sn-3c27sn7e&ms=rdu&mt=1548332617&mv=m&nh=IgpwcjAxLmticDAzKgkxMjcuMC4wLjE"
+            return "https://r15---sn-3c27sn7e.googlevideo.com/videoplayback?source=youtube&signature=68931055FECD9C58BE57012555371DD97314FB4E.4AC72FF6F493537DF23E9F6115486F59DA1CD9BB&requiressl=yes&mime=video%2Fmp4&clen=20907280&itag=18&ip=5.58.167.211&pl=16&ei=x4JQXNaGN9rE7QSMooCwCw&txp=5531432&gir=yes&sparams=clen,dur,ei,expire,gir,id,ip,ipbits,ipbypass,itag,lmt,mime,mip,mm,mn,ms,mv,nh,pl,ratebypass,requiressl,source&ratebypass=yes&fvip=15&c=WEB&id=o-AJQP8GMsd3yjoM8KL0WtPoljV3EL5PCWFqImmGwJWUco&ipbits=0&lmt=1540661473071949&key=cms1&expire=1548801832&dur=253.933&video_id=wTcNtgA6gHs&title=GoPro+HERO4-+The+Adventure+of+Life+in+4K&rm=sn-a5oxu-uoae7l,sn-3c2eee6&req_id=ab58cca6490ea3ee&redirect_counter=2&cms_redirect=yes&ipbypass=yes&mip=176.36.193.245&mm=29&mn=sn-3c27sn7e&ms=rdu&mt=1548782396&mv=m&nh=IgpwcjAxLmticDAzKgkxMjcuMC4wLjE"
         }()
         if let url = URL(string: urlString) {
             player = AVPlayer(url: url)
@@ -196,6 +207,10 @@ class VideoPlayerView: UIView {
         videoSlider.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleHideControlMenu))
+        controlContainerView.addGestureRecognizer(gestureRecognizer)
+        
+        
         
         backgroundColor = .black
         
@@ -233,7 +248,7 @@ class VideoLauncher: NSObject {
                 
                 view.frame = keyWindow.frame
                 
-            }) { (completedAnimation ) in
+            }) { (completedAnimation) in
                 // maybe we'll do something here later.
                 keyWindow.windowLevel = UIWindow.Level.statusBar
                 

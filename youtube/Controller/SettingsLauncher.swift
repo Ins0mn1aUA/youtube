@@ -91,16 +91,30 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
         }
     }
     
-    @objc func handleDismiss(setting: Setting) {
+    func dismissBlackView() {
+        self.blackView.alpha = 0
+        
+        if let window = UIApplication.shared.keyWindow {
+            self.collectionView.frame = CGRect(x: 0,
+                                               y: window.frame.height,
+                                               width: self.collectionView.frame.width,
+                                               height: self.collectionView.frame.height)
+        }
+    }
+    
+    @objc func handleDismiss() {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            self.blackView.alpha = 0
             
-            if let window = UIApplication.shared.keyWindow {
-                self.collectionView.frame = CGRect(x: 0,
-                                                   y: window.frame.height,
-                                                   width: self.collectionView.frame.width,
-                                                   height: self.collectionView.frame.height)
-            }
+            self.dismissBlackView()
+            
+        })
+    }
+    
+    
+    @objc func handleDismissWith(setting: Setting) {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            
+            self.dismissBlackView()
             
         }) { (completed: Bool) in
             
@@ -136,7 +150,7 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let setting = self.settings[indexPath.item]
-        handleDismiss(setting: setting)
+        handleDismissWith(setting: setting)
     }
     
     override init() {

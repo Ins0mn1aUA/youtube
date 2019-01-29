@@ -15,11 +15,14 @@ struct Video: Decodable {
     let channel: Channel?
     let duration: Int?
 //    let uploadDate: Date?
+//    let likes: Int?
+//    let dislikes: Int?
 }
 
 struct Channel: Decodable {
     let name: String?
     let profile_image_name: String?
+//    let number_of_subscribers: Int?
 }
 
 

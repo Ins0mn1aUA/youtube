@@ -74,8 +74,8 @@
 				7D446C9D21F7476E00199309 /* MenuCell.swift */,
 				7D3F7FEB21F2050800309063 /* VideoCell.swift */,
 				7DD7738D21F64416005224A6 /* SettingCell.swift */,
-				7D446CA221F78A3600199309 /* FeedCell.swift */,
 				7D2D6D5721F8847C00C46533 /* TrendingCell.swift */,
+				7D446CA221F78A3600199309 /* FeedCell.swift */,
 				7D2D6D5921F8877900C46533 /* SubscriptionCell.swift */,
 			);
 			path = View;
